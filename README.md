@@ -1,4 +1,11 @@
-# Como Executar o Projeto com Docker
+# Projeto de processo seletivo (Net Supre)
+
+### Tecnologias Utilizadas
+- Frontend: React
+- Backend: PHP
+- Banco de Dados & Infraestrutura: PostgreSQL e Docker
+
+## Como Executar o Projeto com Docker
 ### 1. Clonar o Repositório
 
 ```bash
@@ -10,7 +17,7 @@ cd netsupre-crud
 O projeto utiliza variáveis de ambiente para gerenciar de forma segura as credenciais de acesso ao banco de dados e as portas dos serviços.
 Portanto, antes de subir os containers, você precisa criar o arquivo .env com base no modelo fornecido (.env.sample).
 ### 3. Inicializar os Containers
-Na raiz do projeto (onde se encontra o arquivo docker-compose.yml), execute o comando para construir e iniciar os serviços em plano de fundo:
+Na raiz do projeto (onde se encontra o arquivo docker-compose.yaml), execute o comando para construir e iniciar os serviços em plano de fundo:
 
 ```bash
 docker compose up -d --build
@@ -18,9 +25,7 @@ docker compose up -d --build
 O Docker se encarregará de inicializar o banco de dados para criar as tabelas: Pessoa e Telefone.
 
 ### 4. Acessar a Aplicação
-Frontend: http://localhost:3000
-
-Backend: http://localhost:8000/controllers/PessoaController.php
+Link: http://localhost:3000
 
 ---
 ## Metadados do Banco de Dados
