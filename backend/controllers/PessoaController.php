@@ -10,11 +10,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
 }
 
-$db_host = getenv('DB_HOST') ?: 'db';
-$db_port = getenv('DB_PORT') ?: '5432';
-$db_name = getenv('DB_NAME') ?: 'netsupre_crud';
-$db_user = getenv('DB_USER') ?: 'admin';
-$db_pass = getenv('DB_PASSWORD') ?: 'admin';
+$db_host = getenv('POSTGRES_HOST') ?: 'db';
+$db_port = getenv('POSTGRES_PORT') ?: '5432';
+$db_name = getenv('POSTGRES_DB') ?: 'netsupre_crud';
+$db_user = getenv('POSTGRES_USER') ?: 'admin';
+$db_pass = getenv('POSTGRES_PASSWORD') ?: 'admin';
 
 $connection_string = "host=$db_host port=$db_port dbname=$db_name user=$db_user password=$db_pass";
 $db = pg_connect($connection_string);
