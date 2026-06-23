@@ -1,0 +1,78 @@
+services:
+  frontend:
+    image: net_suprema_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: net_suprema_frontend
+    restart: always
+    ports:
+      - "3000:5173"
+    networks:
+      - net_suprema_network
+    depends_on:
+      - backend
+
+  backend:
+    image: net_suprema_backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: net_suprema_backend
+    restart: always
+    ports:
+      - "8000:80"
+    volumes:
+      - ./backend:/var/www/html
+    networks:
+      - net_suprema_network
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15-alpine
+    container_name: net_suprema_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database:/docker-entrypoint-initdb.d
+    networks:
+      - net_suprema_network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: net_suprema_sgbd
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
+      PGADMIN_CONFIG_CONSOLE_LOG_LEVEL: "10"
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      - ./pgadmin/servers.json:/pgadmin4/servers.json:ro
+    networks:
+      - net_suprema_network
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
+    name: net_suprema_postgres_data
+  pgadmin_data:
+    name: net_suprema_pgadmin_data
+
+networks:
+  net_suprema_network:
+    name: net_suprema_network
+    driver: bridge
